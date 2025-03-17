@@ -109,12 +109,21 @@ void	*routine(void *arg)
 	pthread_mutex_lock(&p->env->start_mutex);
 	pthread_mutex_unlock(&p->env->start_mutex);
 
-	// Optional "stagger" if #philo is odd and I'm philosopher 0.
-	   if (p->env->num_philo % 2 && p->id == 0)
-		   precise_sleep(2 * p->env->eat_time);
-		if (((p->env->num_philo % 2) == 0) && p->id % 2)
+		if (p->env->num_philo % 2 && p->id == 0)
+		{
+			print_status(p, "is thinking");
+		   precise_sleep(2 * p->env->eat_time);		
+		}
+		if (p->env->num_philo % 2 && p->id % 2)
+		{
+			print_status(p, "is thinking");
 		   precise_sleep(p->env->eat_time);
-
+		}
+		else if (((p->env->num_philo % 2) == 0) && p->id % 2)
+		{
+			print_status(p, "is thinking");
+		   precise_sleep(p->env->eat_time);
+		}
 
 	while (!p->env->ended
 		&& (p->env->meals_limit == -1 || p->meals < p->env->meals_limit))
@@ -139,143 +148,4 @@ void	*routine(void *arg)
 		print_status(p, "is thinking");
 	}
 	return (NULL);
-}
-
-void	*monitor(void *arg)
-{
-	t_env	*env;
-	int		full;
-	int		i;
-
-	env = (t_env *)arg;
-	while (!env->ended)
-	{
-		full = 0;
-		i = 0;
-		while (i < env->num_philo)
-		{
-			pthread_mutex_lock(&env->meal_mutex);
-			long time_since_meal = get_time() - env->philos[i].last_meal;
-			int  mcount = env->philos[i].meals;
-			pthread_mutex_unlock(&env->meal_mutex);
-
-			/* Check death */
-			if (time_since_meal > env->die_time)
-			{
-				pthread_mutex_lock(&env->print_mutex);
-				if (!env->ended)
-				{
-					env->ended = 1;
-					printf("%ld %d died\n", get_time() - env->start_time, i + 1);
-				}
-				pthread_mutex_unlock(&env->print_mutex);
-				return (NULL);
-			}
-			if (env->meals_limit != -1 && mcount >= env->meals_limit)
-				full++;
-			i++;
-		}
-		if (env->meals_limit != -1 && full == env->num_philo)
-			env->ended = 1;
-		usleep(500);
-	}
-	return (NULL);
-}
-
-int	main(int ac, char **av)
-{
-	t_env	env;
-	int		i;
-	pthread_t mon;
-
-	if (ac < 5 || ac > 6)
-		return (printf("Usage: ./philo num die eat sleep [meals]\n"), 1);
-
-	memset(&env, 0, sizeof(env));
-	env.num_philo = atoi(av[1]);
-	env.die_time = atoi(av[2]);
-	env.eat_time = atoi(av[3]);
-	env.sleep_time = atoi(av[4]);
-	env.meals_limit = (ac == 6) ? atoi(av[5]) : -1;
-
-	env.forks = malloc(sizeof(pthread_mutex_t) * env.num_philo);
-	env.philos = malloc(sizeof(t_philo) * env.num_philo);
-	env.cond_vars = malloc(sizeof(pthread_cond_t) * env.num_philo);
-	env.ticket_nums = malloc(sizeof(int) * env.num_philo);
-
-	pthread_mutex_init(&env.print_mutex, NULL);
-	pthread_mutex_init(&env.meal_mutex, NULL);
-	pthread_mutex_init(&env.start_mutex, NULL);
-	pthread_mutex_init(&env.hunger_lock, NULL);
-
-	i = 0;
-	while (i < env.num_philo)
-	{
-		pthread_mutex_init(&env.forks[i], NULL);
-		pthread_cond_init(&env.cond_vars[i], NULL);
-		env.ticket_nums[i] = HIGH_SENTINEL;
-		i++;
-	}
-	env.ticket_counter = 0;
-
-	env.start_time = get_time();
-
-	/* Initialize philosopher structs */
-	i = 0;
-	while (i < env.num_philo)
-	{
-		env.philos[i].id = i;
-		env.philos[i].meals = 0;
-		env.philos[i].last_meal = env.start_time;
-		env.philos[i].env = &env;
-		i++;
-	}
-
-	/* Lock start_mutex so all threads block until we unlock. */
-	pthread_mutex_lock(&env.start_mutex);
-
-	/* Create philosopher threads */
-	i = 0;
-	while (i < env.num_philo)
-	{
-		pthread_create(&env.philos[i].thread, NULL, routine, &env.philos[i]);
-		i++;
-	}
-
-	/* Create monitor thread */
-	pthread_create(&mon, NULL, monitor, &env);
-
-	/* Release the philosophers */
-	pthread_mutex_unlock(&env.start_mutex);
-
-	/* Wait for philosopher threads */
-	i = 0;
-	while (i < env.num_philo)
-	{
-		pthread_join(env.philos[i].thread, NULL);
-		i++;
-	}
-
-	/* Wait for monitor thread to exit */
-	pthread_join(mon, NULL);
-
-	/* Cleanup */
-	i = 0;
-	while (i < env.num_philo)
-	{
-		pthread_mutex_destroy(&env.forks[i]);
-		pthread_cond_destroy(&env.cond_vars[i]);
-		i++;
-	}
-	free(env.forks);
-	free(env.philos);
-	free(env.cond_vars);
-	free(env.ticket_nums);
-
-	pthread_mutex_destroy(&env.hunger_lock);
-	pthread_mutex_destroy(&env.print_mutex);
-	pthread_mutex_destroy(&env.meal_mutex);
-	pthread_mutex_destroy(&env.start_mutex);
-
-	return (EXIT_SUCCESS);
 }
