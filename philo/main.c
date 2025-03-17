@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:44:59 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 12:59:47 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:42:18 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	main(int ac, char **av)
 
 
 	if (ac < 5 || ac > 6)
-		return (printf("Usage: ./philo num die eat sleep [meals]\n"), 1);
+	{
+		print_error("Usage: ./philo num die eat sleep [meals]\n");
+		return (EXIT_FAILURE);
+	}
 	env = malloc(sizeof(t_env));
 	if (!env)
 	{
@@ -32,7 +35,8 @@ int	main(int ac, char **av)
 		clean_up(env);
 		return (EXIT_FAILURE);
 	}
-	init_philos(env);
+	setup_philos(env);
+	
 	pthread_mutex_lock(&env->start_mutex);
 	i = 0;
 	while (i < env->num_philo)
@@ -52,6 +56,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	pthread_mutex_unlock(&env->start_mutex);
+	
 	i = 0;
 	while (i < env->num_philo)
 	{

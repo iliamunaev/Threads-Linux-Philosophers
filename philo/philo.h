@@ -61,7 +61,7 @@ typedef struct s_env
 
 // init
 int     init_env(t_env *env, int ac, char **av);
-void	init_philos(t_env *env);
+void	setup_philos(t_env *env);
 
 long    get_time(void);
 void    precise_sleep(long ms);

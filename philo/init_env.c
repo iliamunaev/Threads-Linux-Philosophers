@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:55:25 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 12:57:08 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:42:01 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ static int	init_mutexes(t_env *env)
 	}
 	return (EXIT_SUCCESS);
 }
-static int alloc_mem(t_env *env)
+static int	alloc_mem(t_env *env)
 {
     env->forks = malloc(env->num_philo * sizeof(pthread_mutex_t));
     env->philos = malloc(env->num_philo * sizeof(t_philo));
     env->ticket_nums = malloc(env->num_philo * sizeof(int));
-
     if (!env->forks || !env->philos || !env->ticket_nums)
     {
         print_error("Error: alloc_mem: mem allocation failed\n");
@@ -50,11 +49,15 @@ static int alloc_mem(t_env *env)
     return (EXIT_SUCCESS);
 }
 
-void	init_log_buffer(t_env	*env)
+static int	init_log_buffer(t_env	*env)
 {
-
 	env->log_buffer.count = 0;
-	pthread_mutex_init(&env->log_buffer.mutex, NULL);
+	if (pthread_mutex_init(&env->log_buffer.mutex, NULL) != 0)
+	{
+        print_error("Error: init_log_buffer: mutex init failed\n");
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	init_env(t_env *env, int ac, char **av)
@@ -71,7 +74,8 @@ int	init_env(t_env *env, int ac, char **av)
 		env->meals_limit = -1;
 	if (alloc_mem(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	init_log_buffer(env);
+	if (init_log_buffer(env) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	if (init_mutexes(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	pthread_create(&logger_thread, NULL, &log_flusher, env);
