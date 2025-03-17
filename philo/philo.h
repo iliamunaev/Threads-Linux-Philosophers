@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:16:08 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:51:05 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_env
 // init
 int		init_env(t_env *env, int ac, char **av);
 void	setup_philos(t_env *env);
+int		start_threads(t_env *env, pthread_t *mon, pthread_t *logger_thread);
+void	join_threads(t_env *env, pthread_t mon, pthread_t logger_thread);
 
 long	get_time(void);
 void	precise_sleep(long ms);
@@ -104,5 +106,5 @@ int		ft_atoi(const char *str);
 void	print_error(char *msg);
 void	clean_up(t_env *env);
 void	ft_strncpy(char *dest, const char *src, size_t n);
-
+size_t	ft_strlen(const char *s);
 #endif

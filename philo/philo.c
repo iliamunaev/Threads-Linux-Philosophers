@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:09:02 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:26:34 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	*routine(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&p->env->end_mutex);
-		if (p->env->ended || (p->env->meals_limit != -1 && p->meals >= p->env->meals_limit))
+		if (p->env->ended
+			|| (p->env->meals_limit != -1 && p->meals >= p->env->meals_limit))
 		{
 			pthread_mutex_unlock(&p->env->end_mutex);
 			break ;

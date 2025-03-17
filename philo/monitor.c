@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 09:56:20 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:07:54 by imunaev-         ###   ########.fr       */
+/*   Created: 2025/03/17 17:31:00 by imunaev-          #+#    #+#             */
+/*   Updated: 2025/03/17 17:57:26 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,24 @@ static int	check_full(t_env *env)
 }
 
 /**
+ * @brief Checks if the simulation should end due to a philosopher's death.
+ *
+ * @param env Pointer to the environment structure.
+ * @return 1 if the simulation should end, otherwise 0.
+ */
+static int	should_terminate(t_env *env)
+{
+	pthread_mutex_lock(&env->end_mutex);
+	if (env->ended)
+	{
+		pthread_mutex_unlock(&env->end_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&env->end_mutex);
+	return (0);
+}
+
+/**
  * @brief Monitor thread function.
  *
  * Continuously checks for philosopher deaths or if all philosophers
@@ -96,20 +114,13 @@ void	*monitor(void *arg)
 	env = (t_env *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&env->end_mutex);
-		if (env->ended)
-		{
-			pthread_mutex_unlock(&env->end_mutex);
+		if (should_terminate(env))
 			break ;
-		}
-		pthread_mutex_unlock(&env->end_mutex);
 		i = 0;
 		while (i < env->num_philo)
 		{
 			if (check_death(env, i))
-			{
 				return (NULL);
-			}
 			i++;
 		}
 		if (check_full(env))

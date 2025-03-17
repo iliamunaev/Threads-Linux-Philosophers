@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:44:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:18:20 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:26:17 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	start_routin(t_env *env, pthread_t *mon)
 	i = 0;
 	while (i < env->num_philo)
 	{
-		if (pthread_create(&env->philos[i].thread, NULL, routine, &env->philos[i]) != 0)
+		if (pthread_create(&env->philos[i].thread,
+				NULL, routine, &env->philos[i]) != 0)
 		{
 			print_error("Error: start_routin: failed to create philo thread\n");
 			return (EXIT_FAILURE);

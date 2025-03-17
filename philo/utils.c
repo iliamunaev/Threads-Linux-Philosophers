@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:46:49 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:11:02 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:57:04 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_strncpy(char *dest, const char *src, size_t n)
  * @param s The string whose length is to be calculated.
  * @return size_t The length of the string, excluding the null terminator.
  */
-static size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	size_t	len;
 
@@ -55,14 +55,6 @@ static size_t	ft_strlen(const char *s)
 	while (s[len])
 		len++;
 	return (len);
-}
-
-void	print_error(char *msg)
-{
-	size_t	len_msg;
-
-	len_msg = ft_strlen(msg);
-	(void)write(STDOUT_FILENO, msg, len_msg);
 }
 
 /**

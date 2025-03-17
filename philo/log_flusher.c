@@ -6,13 +6,13 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:40:04 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:10:21 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:10 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file log_flusher.c
- * @brief Handles buffered logging for philosopher simulation.
+ * @brief The print philosopher's statment thread.
  */
 #include "philo.h"
 
@@ -24,15 +24,21 @@
  * @param id Philosopher ID.
  * @param status Status message of the philosopher.
  */
-void	buffered_print(t_log_buffer *buf, long timestamp, int id, const char *status)
+void	buffered_print(
+						t_log_buffer *buf,
+						long timestamp,
+						int id,
+						const char *status)
 {
 	pthread_mutex_lock(&buf->mutex);
 	if (buf->count < LOG_BUFFER_SIZE)
 	{
 		buf->entries[buf->count].timestamp = timestamp;
 		buf->entries[buf->count].id = id;
-		ft_strncpy(buf->entries[buf->count].status, status, sizeof(buf->entries[buf->count].status) - 1);
-		buf->entries[buf->count].status[sizeof(buf->entries[buf->count].status) - 1] = '\0';
+		ft_strncpy(buf->entries[buf->count].status, status,
+			sizeof(buf->entries[buf->count].status) - 1);
+		buf->entries[buf->count].status[
+			sizeof(buf->entries[buf->count].status) - 1] = '\0';
 		buf->count++;
 	}
 	pthread_mutex_unlock(&buf->mutex);
