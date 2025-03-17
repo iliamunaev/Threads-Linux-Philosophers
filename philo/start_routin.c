@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:44:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 14:03:09 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:42:18 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	start_routin(t_env *env, pthread_t *mon)
 {
-	int			i;
+	int	i;
 	
 	pthread_mutex_lock(&env->start_mutex);
 	i = 0;

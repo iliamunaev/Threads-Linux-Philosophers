@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 11:59:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 15:16:32 by imunaev-         ###   ########.fr       */
+/*   Created: 2025/03/17 15:40:04 by imunaev-          #+#    #+#             */
+/*   Updated: 2025/03/17 15:40:55 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	buffered_print(t_log_buffer *buf, long timestamp, int id, const char *statu
 	pthread_mutex_unlock(&buf->mutex);
 }
 
-
 void	print_status(t_philo *p, const char *status)
 {
 	long	timestamp;
@@ -34,42 +33,57 @@ void	print_status(t_philo *p, const char *status)
 	timestamp = get_time() - p->env->start_time;
 	buffered_print(&p->env->log_buffer, timestamp, p->id + 1, status);
 }
-void *log_flusher(void *arg)
+
+static void	flush_log_entries(t_env *env, int log_count)
 {
-    t_env *env = (t_env *)arg;
-    int i;
-    int log_count;
+	int i;
+	
+	i = 0;
+	pthread_mutex_lock(&env->print_mutex);
+	while (i < log_count)
+	{
+		printf("%ld %d %s\n",
+			   env->log_buffer.entries[i].timestamp,
+			   env->log_buffer.entries[i].id,
+			   env->log_buffer.entries[i].status);
+		i++;
+	}
+	env->log_buffer.count = 0;
+	pthread_mutex_unlock(&env->print_mutex);
+}
+
+static int	should_exit_log_flusher(t_env *env, int *log_count)
+{
 	int ended_local;
 
-    while (1)
-    {
-        pthread_mutex_lock(&env->end_mutex);
-        ended_local = env->ended;
-        pthread_mutex_unlock(&env->end_mutex);
+	pthread_mutex_lock(&env->end_mutex);
+	ended_local = env->ended;
+	pthread_mutex_unlock(&env->end_mutex);
+	pthread_mutex_lock(&env->log_buffer.mutex);
+	*log_count = env->log_buffer.count;
+	if (ended_local && *log_count == 0)
+	{
+		pthread_mutex_unlock(&env->log_buffer.mutex);
+		return (1);
+	}
+	return (0);
+}
 
-        pthread_mutex_lock(&env->log_buffer.mutex);
-        log_count = env->log_buffer.count;
-        if (ended_local && log_count == 0)
-        {
-            pthread_mutex_unlock(&env->log_buffer.mutex);
-            break;
-        }
+void	*log_flusher(void *arg)
+{
+	t_env *env;
+	int log_count;
 
-        i = 0;
-		pthread_mutex_lock(&env->print_mutex);
-        while (i < log_count)
-        {
-            printf("%ld %d %s\n",
-                    env->log_buffer.entries[i].timestamp,
-                    env->log_buffer.entries[i].id,
-                    env->log_buffer.entries[i].status);
-            i++;
-        }
-        env->log_buffer.count = 0;
-        pthread_mutex_unlock(&env->print_mutex);
-        pthread_mutex_unlock(&env->log_buffer.mutex);
+	env = (t_env *)arg;
+	while (1)
+	{
+		if (should_exit_log_flusher(env, &log_count))
+			break;
 
-        usleep(1000);
-    }
-    return (NULL);
+		flush_log_entries(env, log_count);
+
+		pthread_mutex_unlock(&env->log_buffer.mutex);
+		usleep(1000);
+	}
+	return (NULL);
 }

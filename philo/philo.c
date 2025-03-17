@@ -6,13 +6,13 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 14:21:53 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:42:00 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void self_arrange(t_philo *p)
+static void	self_arrange(t_philo *p)
 {
 	if (p->env->num_philo % 2 && p->id == 0)
 	{

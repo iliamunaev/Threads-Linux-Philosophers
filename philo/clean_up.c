@@ -6,46 +6,13 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:11 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 14:21:41 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:38:30 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/*
-
-typedef struct s_philo
-{
-	int		 id;
-	int		 meals;
-	long		last_meal;
-	pthread_t   thread;
-	t_env	   *env;
-}   t_philo;
-
-
-typedef struct s_env
-{
-	int			 num_philo;
-	long			die_time;
-	long			eat_time;
-	long			sleep_time;
-	int			 meals_limit;
-	int			 ended;
-	long			start_time;
-	pthread_mutex_t *forks;
-	t_philo		 *philos;
-	pthread_cond_t  *cond_vars;
-	int			 *ticket_nums;
-	int			 ticket_counter;
-	pthread_mutex_t end_mutex;
-	pthread_mutex_t print_mutex;
-	pthread_mutex_t meal_mutex;
-	pthread_mutex_t start_mutex;
-}   t_env;
-
-*/
-void clean_up(t_env *env)
+void	clean_up(t_env *env)
 {
 	int i;
 

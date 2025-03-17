@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:55:25 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 14:38:21 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:38:46 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	init_mutexes(t_env *env)
 	}
 	return (EXIT_SUCCESS);
 }
+
 static int	alloc_mem(t_env *env)
 {
     env->forks = malloc(env->num_philo * sizeof(pthread_mutex_t));
