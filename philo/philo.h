@@ -50,7 +50,6 @@ typedef struct s_env
     long            start_time;
     pthread_mutex_t *forks;
     t_philo         *philos;
-    pthread_cond_t  *cond_vars;
     int             *ticket_nums;
     int             ticket_counter;
     pthread_mutex_t hunger_lock;

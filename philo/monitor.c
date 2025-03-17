@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:56:20 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 12:22:25 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 13:11:50 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	*monitor(void *arg)
 	t_env	*env;
 	int		full;
 	int		i;
-	long time_since_meal;
-	int  mcount;
+	long	time_since_meal;
+	int		mcount;
 
 	env = (t_env *)arg;
 	while (!env->ended)
@@ -48,7 +48,7 @@ void	*monitor(void *arg)
 		}
 		if (env->meals_limit != -1 && full == env->num_philo)
 			env->ended = 1;
-		usleep(200);
+		usleep(5000);
 	}
 	return (NULL);
 }

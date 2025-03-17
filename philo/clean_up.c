@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:11 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 11:58:35 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:57:28 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void clean_up(t_env *env)
 
 	if (!env)
 		return;
-
-	// Destroy mutexes for forks
 	i = 0;
 	if (env->forks)
 	{
@@ -63,33 +61,14 @@ void clean_up(t_env *env)
 		}
 		free(env->forks);
 	}
-
-	// Destroy condition variables
-	i = 0;
-	if (env->cond_vars)
-	{
-		while (i < env->num_philo)
-		{
-			pthread_cond_destroy(&env->cond_vars[i]);
-			i++;
-		}
-		free(env->cond_vars);
-	}
-
-	// Free philosophers array
 	if (env->philos)
 		free(env->philos);
-
-	// Free ticket numbers array
 	if (env->ticket_nums)
 		free(env->ticket_nums);
-
-	// Destroy other mutexes
 	pthread_mutex_destroy(&env->hunger_lock);
 	pthread_mutex_destroy(&env->print_mutex);
 	pthread_mutex_destroy(&env->meal_mutex);
 	pthread_mutex_destroy(&env->start_mutex);
 	pthread_mutex_destroy(&env->log_buffer.mutex);
-
 	free(env);
 }

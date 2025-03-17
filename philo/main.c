@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:44:59 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 11:57:57 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:59:47 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	init_philos(env);
-
-	/* Lock start_mutex so all threads block until we unlock. */
 	pthread_mutex_lock(&env->start_mutex);
-
-	/* Create philosopher threads */
 	i = 0;
 	while (i < env->num_philo)
 	{
@@ -49,30 +45,20 @@ int	main(int ac, char **av)
 		}
 		i++;
 	}
-	
-	// Create monitor thread
 	if (pthread_create(&mon, NULL, monitor, env) != 0)
 	{
 		print_error("Error: Failed to create monitor thread\n");
 		clean_up(env);
 		return (EXIT_FAILURE);
 	}
-
-	// Release the philosophers
 	pthread_mutex_unlock(&env->start_mutex);
-
-	// Wait for philosopher threads
 	i = 0;
 	while (i < env->num_philo)
 	{
 		pthread_join(env->philos[i].thread, NULL);
 		i++;
 	}
-
-	// Wait for monitor thread to exit
 	pthread_join(mon, NULL);
-
 	clean_up(env);
-
 	return (EXIT_SUCCESS);
 }
