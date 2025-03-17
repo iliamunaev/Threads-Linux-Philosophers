@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   clean_up.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 10:45:11 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:04:54 by imunaev-         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   clean_up.c										 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: imunaev- <imunaev-@student.hive.fi>		+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/03/17 10:45:11 by imunaev-		  #+#	#+#			 */
+/*   Updated: 2025/03/17 18:53:45 by imunaev-		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 /**
@@ -30,24 +30,29 @@ void	clean_up(t_env *env)
 
 	if (!env)
 		return ;
-	i = 0;
-	if (env->forks)
-	{
-		while (i < env->num_philo)
-		{
-			pthread_mutex_destroy(&env->forks[i]);
-			i++;
-		}
-		free(env->forks);
-	}
-	if (env->philos)
-		free(env->philos);
-	if (env->ticket_nums)
-		free(env->ticket_nums);
-	pthread_mutex_destroy(&env->end_mutex);
 	pthread_mutex_destroy(&env->print_mutex);
 	pthread_mutex_destroy(&env->meal_mutex);
 	pthread_mutex_destroy(&env->start_mutex);
-	pthread_mutex_destroy(&env->log_buffer.mutex);
+	pthread_mutex_destroy(&env->end_mutex);
+	i = 0;
+	while (i < env->num_philo)
+	{
+
+		pthread_mutex_destroy(&env->forks[i]);
+		i++;
+	}
+	free(env->forks);
+	free(env->philos);
+	free(env->ticket_nums);
+	free(env);
+}
+
+void	clean_env(t_env *env)
+{
+	if (!env)
+		return ;
+	free(env->forks);
+	free(env->philos);
+	free(env->ticket_nums);
 	free(env);
 }

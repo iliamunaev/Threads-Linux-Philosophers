@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:47:57 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 18:24:06 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:08:25 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static bool	validate_args(int ac, char **av)
 	if (ac < 5 || ac > 6 || (ft_atoi(av[1]) < 1) || !av[1][0])
 		return (false);
 	i = 1;
-	while(i < ac)
+	while (i < ac)
 	{
 		j = 0;
-		while(av[i][j] != '\0')
+		while (av[i][j] != '\0')
 		{
 			if (!ft_isdigit(av[i][j]))
 				return (false);
@@ -79,10 +79,7 @@ static int	init_and_setup(t_env **env, int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	if (init_env(*env, ac, av) == EXIT_FAILURE)
-	{
-		clean_up(*env);
 		return (EXIT_FAILURE);
-	}
 	setup_philos(*env);
 	return (EXIT_SUCCESS);
 }
@@ -108,7 +105,10 @@ int	main(int ac, char **av)
 	if (init_and_setup(&env, ac, av) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (start_threads(env, &mon, &logger_thread) == EXIT_FAILURE)
+	{
+		clean_up(env);
 		return (EXIT_FAILURE);
+	}
 	join_threads(env, mon, logger_thread);
 	clean_up(env);
 	return (EXIT_SUCCESS);

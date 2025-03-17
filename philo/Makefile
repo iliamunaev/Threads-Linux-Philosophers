@@ -6,7 +6,7 @@
 #    By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/17 09:44:25 by imunaev-          #+#    #+#              #
-#    Updated: 2025/03/17 17:55:40 by imunaev-         ###   ########.fr        #
+#    Updated: 2025/03/17 19:10:49 by imunaev-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS =	main.c \
 
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
 
 all: $(NAME)
 

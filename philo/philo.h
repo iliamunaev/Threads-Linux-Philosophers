@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 18:07:38 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 19:01:00 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	*monitor(void *arg);
 int		ft_atoi(const char *str);
 void	print_error(char *msg);
 void	clean_up(t_env *env);
+void	clean_env(t_env *env);
 void	ft_strncpy(char *dest, const char *src, size_t n);
 size_t	ft_strlen(const char *s);
 #endif

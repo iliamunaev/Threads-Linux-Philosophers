@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_env.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 09:55:25 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 18:22:36 by imunaev-         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   init_env.c										 :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: imunaev- <imunaev-@student.hive.fi>		+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/03/17 09:55:25 by imunaev-		  #+#	#+#			 */
+/*   Updated: 2025/03/17 18:53:06 by imunaev-		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 /**
@@ -29,16 +29,35 @@ static int	init_mutexes(t_env *env)
 	if (pthread_mutex_init(&env->print_mutex, NULL) != 0)
 		return (EXIT_FAILURE);
 	if (pthread_mutex_init(&env->meal_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&env->print_mutex);
 		return (EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&env->start_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&env->print_mutex);
+		pthread_mutex_destroy(&env->meal_mutex);
 		return (EXIT_FAILURE);
+	}
 	if (pthread_mutex_init(&env->end_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&env->print_mutex);
+		pthread_mutex_destroy(&env->meal_mutex);
+		pthread_mutex_destroy(&env->start_mutex);
 		return (EXIT_FAILURE);
+	}
 	i = 0;
 	while (i < env->num_philo)
 	{
 		if (pthread_mutex_init(&env->forks[i], NULL) != 0)
+		{
+			while (i > 0)  // Correctly loop backwards
+			{
+				i--;
+				pthread_mutex_destroy(&env->forks[i]);
+			}
 			return (EXIT_FAILURE);
+		}
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -53,14 +72,19 @@ static int	init_mutexes(t_env *env)
 static int	alloc_mem(t_env *env)
 {
 	env->forks = malloc(env->num_philo * sizeof(pthread_mutex_t));
+	if (!env->forks)
+		return (EXIT_FAILURE);
 	env->philos = malloc(env->num_philo * sizeof(t_philo));
-	env->ticket_nums = malloc(env->num_philo * sizeof(int));
-	if (!env->forks || !env->philos || !env->ticket_nums)
+	if (!env->philos)
 	{
-		print_error("Error: alloc_mem: mem allocation failed\n");
+		free(env->forks);
+		return (EXIT_FAILURE);
+	}
+	env->ticket_nums = malloc(env->num_philo * sizeof(int));
+	if (!env->ticket_nums)
+	{
 		free(env->forks);
 		free(env->philos);
-		free(env->ticket_nums);
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -105,11 +129,21 @@ int	init_env(t_env *env, int ac, char **av)
 	else
 		env->meals_limit = -1;
 	if (alloc_mem(env) == EXIT_FAILURE)
+	{
+		print_error ("Error: init_env: mem alloc failed.\n");
 		return (EXIT_FAILURE);
+	}
 	if (init_log_buffer(env) == EXIT_FAILURE)
+	{
+		clean_env(env);
 		return (EXIT_FAILURE);
+	}
 	if (init_mutexes(env) == EXIT_FAILURE)
+	{
+		print_error ("Error: init_env: init_mutexes failed.\n");
+		clean_env(env);
 		return (EXIT_FAILURE);
+	}
 	env->ticket_counter = 0;
 	env->ended = 0;
 	env->start_time = get_time();
