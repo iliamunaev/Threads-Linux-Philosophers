@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:51:05 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:07:38 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <string.h>
+# include <stdbool.h>
 
 # define LOG_BUFFER_SIZE 1024
 

@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:47:57 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:56:53 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:24:06 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,49 @@
 #include "philo.h"
 
 /**
+ * @brief Checks if a character is a numeric digit.
+ *
+ * This function tests whether the given character `c` is a numeric
+ * digit (characters '0' through '9').
+ *
+ * @param c The character to check.
+ * @return int Nonzero if the character is a numeric digit, 0 otherwise.
+ */
+static int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+/**
  * @brief Validates the command-line arguments.
  *
+ * Ensures the correct number of arguments is provided and that each argument
+ * consists only of numeric digits.
+ *
  * @param ac Argument count.
- * @return EXIT_SUCCESS if valid, otherwise EXIT_FAILURE.
+ * @param av Argument vector.
+ * @return true if valid, false otherwise.
  */
-static int	validate_args(int ac)
+static bool	validate_args(int ac, char **av)
 {
-	if (ac < 5 || ac > 6)
+	int	i;
+	int	j;
+
+	if (ac < 5 || ac > 6 || (ft_atoi(av[1]) < 1) || !av[1][0])
+		return (false);
+	i = 1;
+	while(i < ac)
 	{
-		print_error("Usage: ./philo num die eat sleep [meals]\n");
-		return (EXIT_FAILURE);
+		j = 0;
+		while(av[i][j] != '\0')
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (false);
+			j++;
+		}
+		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (true);
 }
 
 /**
@@ -70,8 +100,11 @@ int	main(int ac, char **av)
 	pthread_t	mon;
 	pthread_t	logger_thread;
 
-	if (validate_args(ac) == EXIT_FAILURE)
+	if (!validate_args(ac, av))
+	{
+		print_error("Usage (only digits): ./philo num die eat sleep [meals]\n");
 		return (EXIT_FAILURE);
+	}
 	if (init_and_setup(&env, ac, av) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (start_threads(env, &mon, &logger_thread) == EXIT_FAILURE)
