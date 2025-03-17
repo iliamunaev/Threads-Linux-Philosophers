@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:46:49 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 15:23:22 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:11:02 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static size_t	ft_strlen(const char *s)
 void	print_error(char *msg)
 {
 	size_t	len_msg;
-	
+
 	len_msg = ft_strlen(msg);
 	(void)write(STDOUT_FILENO, msg, len_msg);
 }
@@ -86,6 +86,7 @@ static int	ft_isspace(char c)
 	return (c == ' ' || c == '\n' || c == '\f' || c == '\r'
 		|| c == '\t' || c == '\v');
 }
+
 /**
  * @brief Checks if a character is a numeric digit.
  *

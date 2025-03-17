@@ -3,15 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   log_flusher.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:40:04 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 15:40:55 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:10:21 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file log_flusher.c
+ * @brief Handles buffered logging for philosopher simulation.
+ */
 #include "philo.h"
 
+/**
+ * @brief Adds a log entry to the log buffer.
+ *
+ * @param buf Pointer to the log buffer.
+ * @param timestamp Time at which the event occurred.
+ * @param id Philosopher ID.
+ * @param status Status message of the philosopher.
+ */
 void	buffered_print(t_log_buffer *buf, long timestamp, int id, const char *status)
 {
 	pthread_mutex_lock(&buf->mutex);
@@ -26,35 +38,54 @@ void	buffered_print(t_log_buffer *buf, long timestamp, int id, const char *statu
 	pthread_mutex_unlock(&buf->mutex);
 }
 
+/**
+ * @brief Logs the current status of a philosopher.
+ *
+ * @param p Pointer to the philosopher structure.
+ * @param status Status message of the philosopher.
+ */
 void	print_status(t_philo *p, const char *status)
 {
 	long	timestamp;
-	
+
 	timestamp = get_time() - p->env->start_time;
 	buffered_print(&p->env->log_buffer, timestamp, p->id + 1, status);
 }
 
+/**
+ * @brief Flushes log entries to standard output.
+ *
+ * @param env Pointer to the environment structure.
+ * @param log_count Number of log entries to flush.
+ */
 static void	flush_log_entries(t_env *env, int log_count)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	pthread_mutex_lock(&env->print_mutex);
 	while (i < log_count)
 	{
 		printf("%ld %d %s\n",
-			   env->log_buffer.entries[i].timestamp,
-			   env->log_buffer.entries[i].id,
-			   env->log_buffer.entries[i].status);
+			env->log_buffer.entries[i].timestamp,
+			env->log_buffer.entries[i].id,
+			env->log_buffer.entries[i].status);
 		i++;
 	}
 	env->log_buffer.count = 0;
 	pthread_mutex_unlock(&env->print_mutex);
 }
 
+/**
+ * @brief Checks if the log flusher should exit.
+ *
+ * @param env Pointer to the environment structure.
+ * @param log_count Pointer to store the number of log entries.
+ * @return 1 if the log flusher should exit, otherwise 0.
+ */
 static int	should_exit_log_flusher(t_env *env, int *log_count)
 {
-	int ended_local;
+	int	ended_local;
 
 	pthread_mutex_lock(&env->end_mutex);
 	ended_local = env->ended;
@@ -69,19 +100,23 @@ static int	should_exit_log_flusher(t_env *env, int *log_count)
 	return (0);
 }
 
+/**
+ * @brief Thread function that continuously flushes log entries.
+ *
+ * @param arg Pointer to the environment structure.
+ * @return NULL when the thread exits.
+ */
 void	*log_flusher(void *arg)
 {
-	t_env *env;
-	int log_count;
+	t_env	*env;
+	int		log_count;
 
 	env = (t_env *)arg;
 	while (1)
 	{
 		if (should_exit_log_flusher(env, &log_count))
-			break;
-
+			break ;
 		flush_log_entries(env, log_count);
-
 		pthread_mutex_unlock(&env->log_buffer.mutex);
 		usleep(1000);
 	}

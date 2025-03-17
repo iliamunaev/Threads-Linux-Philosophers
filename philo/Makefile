@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+         #
+#    By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/17 09:44:25 by imunaev-          #+#    #+#              #
-#    Updated: 2025/03/17 14:54:18 by imunaev-         ###   ########.fr        #
+#    Updated: 2025/03/17 16:32:10 by imunaev-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,10 @@ SRCS =	main.c \
 		philo_routin.c \
 		utils.c \
 		clean_up.c
-		
+
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread -g
-RM = rm -f
 
 all: $(NAME)
 

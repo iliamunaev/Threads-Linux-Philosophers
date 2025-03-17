@@ -3,21 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   clean_up.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:11 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 15:38:30 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:04:54 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file clean_up.c
+ * @brief Cleanup functions for philosopher simulation.
+ */
 #include "philo.h"
 
+/**
+ * @brief Frees allocated memory and destroys mutexes.
+ *
+ * This function ensures that all dynamically allocated resources
+ * and mutexes in the environment structure are properly freed and destroyed.
+ *
+ * @param env Pointer to the environment structure.
+ */
 void	clean_up(t_env *env)
 {
-	int i;
+	int	i;
 
 	if (!env)
-		return;
+		return ;
 	i = 0;
 	if (env->forks)
 	{
