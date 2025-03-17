@@ -6,33 +6,36 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:56:20 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 13:33:50 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:03:37 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	check_death(t_env *env, int i)
+static int check_death(t_env *env, int i)
 {
-	long	time_since_meal;
+    long time_since_meal;
 
-	pthread_mutex_lock(&env->meal_mutex);
-	time_since_meal = get_time() - env->philos[i].last_meal;
-	pthread_mutex_unlock(&env->meal_mutex);
+    pthread_mutex_lock(&env->meal_mutex);
+    time_since_meal = get_time() - env->philos[i].last_meal;
+    pthread_mutex_unlock(&env->meal_mutex);
 
-	if (time_since_meal > env->die_time)
-	{
-		pthread_mutex_lock(&env->print_mutex);
-		if (!env->ended)
-		{
-			env->ended = 1;
-			printf("%ld %d died\n", get_time() - env->start_time, i + 1);
-		}
-		pthread_mutex_unlock(&env->print_mutex);
-		return (1);
-	}
-	return (0);
+    if (time_since_meal > env->die_time)
+    {
+        pthread_mutex_lock(&env->end_mutex);
+        if (!env->ended)
+            env->ended = 1;
+        pthread_mutex_unlock(&env->end_mutex);
+
+        pthread_mutex_lock(&env->print_mutex);
+        printf("%ld %d died\n", get_time() - env->start_time, i + 1);
+        pthread_mutex_unlock(&env->print_mutex);
+
+        return (1);
+    }
+    return (0);
 }
+
 
 static int	check_full(t_env *env)
 {
@@ -60,17 +63,32 @@ void	*monitor(void *arg)
 	int		i;
 
 	env = (t_env *)arg;
-	while (!env->ended)
+	while (1)
 	{
+		pthread_mutex_lock(&env->end_mutex);
+		if (env->ended)
+		{
+			pthread_mutex_unlock(&env->end_mutex);
+			break  ;
+		}
+		pthread_mutex_unlock(&env->end_mutex);
+
 		i = 0;
 		while (i < env->num_philo)
 		{
 			if (check_death(env, i))
+			{	
 				return (NULL);
+			}
 			i++;
 		}
+
 		if (check_full(env))
+		{
+			pthread_mutex_lock(&env->end_mutex);
 			env->ended = 1;
+			pthread_mutex_unlock(&env->end_mutex);
+		}
 		usleep(5000);
 	}
 	return (NULL);

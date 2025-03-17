@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:55:25 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 13:42:01 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:38:21 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	init_mutexes(t_env *env)
 		return (EXIT_FAILURE);	
 	if(pthread_mutex_init(&env->start_mutex, NULL) != 0)
 		return (EXIT_FAILURE);	
-	if(pthread_mutex_init(&env->hunger_lock, NULL) != 0)	
+	if(pthread_mutex_init(&env->end_mutex, NULL) != 0)	
 		return (EXIT_FAILURE);
 	i = 0;
 	while (i < env->num_philo)
@@ -61,9 +61,7 @@ static int	init_log_buffer(t_env	*env)
 }
 
 int	init_env(t_env *env, int ac, char **av)
-{	
-	pthread_t logger_thread;
-	
+{		
 	env->num_philo = ft_atoi(av[1]);
 	env->die_time = ft_atoi(av[2]);
 	env->eat_time = ft_atoi(av[3]);
@@ -78,7 +76,7 @@ int	init_env(t_env *env, int ac, char **av)
 		return (EXIT_FAILURE);
 	if (init_mutexes(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	pthread_create(&logger_thread, NULL, &log_flusher, env);
+
 	env->ticket_counter = 0;
 	env->ended = 0;
 	env->start_time = get_time();	

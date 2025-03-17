@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 13:44:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 13:53:29 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 14:03:09 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	start_routin(t_env *env, pthread_t *mon)
 		print_error("Error: Failed to create monitor thread\n");
 		return (EXIT_FAILURE);
 	}
-	pthread_mutex_unlock(&env->start_mutex);
-	
+	pthread_mutex_unlock(&env->start_mutex);	
 	return (EXIT_SUCCESS);
 }

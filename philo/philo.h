@@ -52,7 +52,7 @@ typedef struct s_env
     t_philo         *philos;
     int             *ticket_nums;
     int             ticket_counter;
-    pthread_mutex_t hunger_lock;
+    pthread_mutex_t end_mutex;
     pthread_mutex_t print_mutex;
     pthread_mutex_t meal_mutex;
     pthread_mutex_t start_mutex;
