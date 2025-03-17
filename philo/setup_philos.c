@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:23:40 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:12:18 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 21:43:22 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	setup_philos(t_env *env)
 	int	i;
 
 	i = 0;
+	env->start_time = get_time();
+
 	while (i < env->num_philo)
 	{
 		env->philos[i].id = i;

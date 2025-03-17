@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:44:58 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 18:00:20 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:01:12 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,9 @@ void	print_error(char *msg)
 	size_t	len_msg;
 
 	len_msg = ft_strlen(msg);
-	(void)write(STDOUT_FILENO, msg, len_msg);
+	if (write(STDOUT_FILENO, msg, len_msg) == -1)
+	{
+		print_error("Error: print_error: write failed.\n");
+		return ;
+	}
 }

@@ -146,6 +146,7 @@ int	init_env(t_env *env, int ac, char **av)
 	}
 	env->ticket_counter = 0;
 	env->ended = 0;
-	env->start_time = get_time();
+	env->start_time = 0;
+	// env->start_time = get_time();
 	return (EXIT_SUCCESS);
 }

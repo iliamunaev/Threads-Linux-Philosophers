@@ -6,7 +6,7 @@
 #    By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/17 09:44:25 by imunaev-          #+#    #+#              #
-#    Updated: 2025/03/17 19:10:49 by imunaev-         ###   ########.fr        #
+#    Updated: 2025/03/17 22:08:38 by imunaev-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,12 @@ SRCS =	main.c \
 		philo_routin.c \
 		philo.c \
 		setup_philos.c \
-		start_routin.c \
 		start_threads.c \
 		utils.c
 
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread #-O3 #-g  #-fsanitize=thread
 
 all: $(NAME)
 

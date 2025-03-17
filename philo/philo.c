@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:26:34 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 22:15:12 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,24 @@
 */
 static void	self_arrange(t_philo *p)
 {
-	if (p->env->num_philo % 2 && p->id == 0)
+	bool is_odd_philo;
+	bool is_even_philo;
+
+	is_odd_philo = (p->env->num_philo & 1);
+	is_even_philo = !(p->env->num_philo & 1);
+	if (is_odd_philo && p->id == 0)
 	{
 		print_status(p, "is thinking");
-		precise_sleep(2 * p->env->eat_time);
+		// precise_sleep(2 * p->env->eat_time);
+		precise_sleep(p->env->eat_time << 1);
 	}
-	if (p->env->num_philo % 2 && p->id % 2)
+	// if (p->env->num_philo % 2 && p->id % 2)
+	if (is_odd_philo&& (p->id & 1))
 	{
 		print_status(p, "is thinking");
 		precise_sleep(p->env->eat_time);
 	}
-	else if (((p->env->num_philo % 2) == 0) && p->id % 2)
+	else if (is_even_philo && p->id & 1)
 	{
 		print_status(p, "is thinking");
 		precise_sleep(p->env->eat_time);
@@ -93,11 +100,17 @@ void	*routine(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
+
 	if (p->env->num_philo == 1)
 	{
 		process_single_philo(p);
 		return (NULL);
 	}
+	pthread_mutex_lock(&p->env->start_mutex);
+	while (get_time() < p->env->start_time)
+		usleep(50);
+	pthread_mutex_unlock(&p->env->start_mutex);
+
 	self_arrange(p);
 	while (1)
 	{
