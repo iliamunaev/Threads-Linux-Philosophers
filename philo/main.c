@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:44:59 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 11:00:23 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:57:57 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(int ac, char **av)
 	t_env	*env;
 	int		i;
 	pthread_t mon;
+
 
 	if (ac < 5 || ac > 6)
 		return (printf("Usage: ./philo num die eat sleep [meals]\n"), 1);

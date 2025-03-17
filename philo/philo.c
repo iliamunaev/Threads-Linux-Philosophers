@@ -17,13 +17,6 @@ void	precise_sleep(long ms)
 		usleep(500);
 }
 
-void	print_status(t_philo *p, char *status)
-{
-	pthread_mutex_lock(&p->env->print_mutex);
-	if (!p->env->ended)
-		printf("%ld %d %s\n", get_time() - p->env->start_time, p->id + 1, status);
-	pthread_mutex_unlock(&p->env->print_mutex);
-}
 
 void	take_forks(t_philo *p)
 {
@@ -52,32 +45,6 @@ void	put_forks(t_philo *p)
 {
 	pthread_mutex_unlock(&p->env->forks[p->id]);
 	pthread_mutex_unlock(&p->env->forks[(p->id + 1) % p->env->num_philo]);
-}
-
-/*
- *   1. Assign philosopher p->id a 'ticket' (env->ticket_counter++).
- *   2. While ticket is WAY bigger than neighbors’ tickets
- *      (meaning I'd be starving them),
- *      wait on a condition variable.
- */
-void	neighbors_starvation_wait(t_philo *p)
-{
-	t_env	*env;
-	int		left;
-	int		right;
-
-	env = p->env;
-	left = (p->id + env->num_philo - 1) % env->num_philo;
-	right = (p->id + 1) % env->num_philo;
-	pthread_mutex_lock(&env->hunger_lock);
-	env->ticket_nums[p->id] = env->ticket_counter;
-	env->ticket_counter++;
-	while (env->ticket_nums[p->id] - env->ticket_nums[left]  > THRESH * env->num_philo
-		|| env->ticket_nums[p->id] - env->ticket_nums[right] > THRESH * env->num_philo)
-	{
-		pthread_cond_wait(&env->cond_vars[p->id], &env->hunger_lock);
-	}
-	pthread_mutex_unlock(&env->hunger_lock);
 }
 
 /*
@@ -128,7 +95,6 @@ void	*routine(void *arg)
 	while (!p->env->ended
 		&& (p->env->meals_limit == -1 || p->meals < p->env->meals_limit))
 	{
-		// neighbors_starvation_wait(p);
 		take_forks(p);
 
 		pthread_mutex_lock(&p->env->meal_mutex);

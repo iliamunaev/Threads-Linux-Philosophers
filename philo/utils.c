@@ -6,11 +6,37 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:46:49 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 10:13:06 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:02:32 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/**
+ * @brief Copies up to `n` characters from the source string
+ * to the destination string.
+ *
+ * This function copies at most `n` characters from the source string `src` to
+ * the destination buffer `dest`. If `src` is shorter than `n` characters,
+ * `dest` is null-terminated. Unlike the standard `strncpy`, this implementation
+ * explicitly null-terminates the destination string.
+ *
+ * @param dest The destination buffer where the string is copied.
+ * @param src The source string to copy from.
+ * @param n The maximum number of characters to copy.
+ */
+void	ft_strncpy(char *dest, const char *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (src && src[i] && i < n)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+}
 
 /**
  * @brief Calculates the length of a string.

@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:55:25 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 11:02:06 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:58:46 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,17 @@ static int alloc_mem(t_env *env)
     return (EXIT_SUCCESS);
 }
 
+void	init_log_buffer(t_env	*env)
+{
+
+	env->log_buffer.count = 0;
+	pthread_mutex_init(&env->log_buffer.mutex, NULL);
+}
 
 int	init_env(t_env *env, int ac, char **av)
 {	
+	pthread_t logger_thread;
+	
 	env->num_philo = ft_atoi(av[1]);
 	env->die_time = ft_atoi(av[2]);
 	env->eat_time = ft_atoi(av[3]);
@@ -67,9 +75,10 @@ int	init_env(t_env *env, int ac, char **av)
 		env->meals_limit = -1;
 	if (alloc_mem(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	init_log_buffer(env);
 	if (init_mutexes(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-
+	pthread_create(&logger_thread, NULL, &log_flusher, env);
 	env->ticket_counter = 0;
 	env->ended = 0;
 	env->start_time = get_time();	

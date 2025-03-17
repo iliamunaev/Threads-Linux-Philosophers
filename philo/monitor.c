@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:56:20 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 10:52:32 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:22:25 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	*monitor(void *arg)
 			time_since_meal = get_time() - env->philos[i].last_meal;
 			mcount = env->philos[i].meals;
 			pthread_mutex_unlock(&env->meal_mutex);
-
-			/* Check death */
 			if (time_since_meal > env->die_time)
 			{
 				pthread_mutex_lock(&env->print_mutex);
@@ -50,7 +48,7 @@ void	*monitor(void *arg)
 		}
 		if (env->meals_limit != -1 && full == env->num_philo)
 			env->ended = 1;
-		usleep(500);
+		usleep(200);
 	}
 	return (NULL);
 }

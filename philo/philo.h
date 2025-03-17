@@ -11,8 +11,23 @@
 # define HIGH_SENTINEL 2147483647
 # define THRESH        5
 
+# define LOG_BUFFER_SIZE 1024
 
 typedef struct s_env t_env;
+
+typedef struct s_log_entry
+{
+	long timestamp;
+	int  id;
+	char status[32];
+}	t_log_entry;
+
+typedef struct s_log_buffer
+{
+	t_log_entry entries[LOG_BUFFER_SIZE];
+	int			count;
+	pthread_mutex_t mutex;
+}	t_log_buffer;
 
 typedef struct s_philo
 {
@@ -23,9 +38,7 @@ typedef struct s_philo
     t_env       *env;
 }   t_philo;
 
-/*
-** Environment structure
-*/
+
 typedef struct s_env
 {
     int             num_philo;
@@ -44,6 +57,7 @@ typedef struct s_env
     pthread_mutex_t print_mutex;
     pthread_mutex_t meal_mutex;
     pthread_mutex_t start_mutex;
+    t_log_buffer    log_buffer;
 }   t_env;
 
 // init
@@ -52,11 +66,11 @@ void	init_philos(t_env *env);
 
 long    get_time(void);
 void    precise_sleep(long ms);
-void    print_status(t_philo *p, char *status);
+void	print_status(t_philo *p, const char *status);
 void    take_forks(t_philo *p);
 void    put_forks(t_philo *p);
+void	*log_flusher(void *arg);
 
-void    neighbors_starvation_wait(t_philo *p);
 void    done_eating(t_philo *p);
 
 void    *routine(void *arg);
@@ -66,4 +80,6 @@ void    *monitor(void *arg);
 int	    ft_atoi(const char *str);
 void	print_error(char *msg);
 void    clean_up(t_env *env);
+void	ft_strncpy(char *dest, const char *src, size_t n);
+
 #endif

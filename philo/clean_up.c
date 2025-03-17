@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@studen.hive.fi>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:45:11 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 10:45:13 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/17 11:58:35 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void clean_up(t_env *env)
 	pthread_mutex_destroy(&env->print_mutex);
 	pthread_mutex_destroy(&env->meal_mutex);
 	pthread_mutex_destroy(&env->start_mutex);
+	pthread_mutex_destroy(&env->log_buffer.mutex);
 
 	free(env);
 }
