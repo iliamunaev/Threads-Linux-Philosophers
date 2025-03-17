@@ -14,7 +14,7 @@ void	precise_sleep(long ms)
 
 	start = get_time();
 	while (get_time() - start < ms)
-		usleep(200);
+		usleep(500);
 }
 
 void	print_status(t_philo *p, char *status)
@@ -128,7 +128,7 @@ void	*routine(void *arg)
 	while (!p->env->ended
 		&& (p->env->meals_limit == -1 || p->meals < p->env->meals_limit))
 	{
-		neighbors_starvation_wait(p);
+		// neighbors_starvation_wait(p);
 		take_forks(p);
 
 		pthread_mutex_lock(&p->env->meal_mutex);
@@ -146,6 +146,7 @@ void	*routine(void *arg)
 		precise_sleep(p->env->sleep_time);
 
 		print_status(p, "is thinking");
+		usleep(500);
 	}
 	return (NULL);
 }
