@@ -109,8 +109,6 @@ Performance Optimizations</h1>
 <p><b>3. Reduced System Calls</b></p><ul>
 <li><b>Minimized use of <code>usleep()</code></b>: Instead of calling <code>usleep(ms * 1000)</code>, I use a <b>precise sleeping loop</b></li>
 <li>that continuously checks elapsed time. This ensures better timing precision with lower overhead.</li>
-<li><b>Thread synchronization optimization</b>: <code>pthread_mutex_trylock()</code> is used where applicable</li>
-<li>to avoid unnecessary blocking.</li>
 </ul>
 <p><b>4. Efficient Memory Allocation</b></p><ul>
 <li><b>All philosopher structures and mutexes are allocated in a single contiguous block</b> instead of multiple allocations.</li>

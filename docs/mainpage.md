@@ -43,8 +43,6 @@
  **3. Reduced System Calls**
  * **Minimized use of `usleep()`**: Instead of calling `usleep(ms * 1000)`, I use a **precise sleeping loop**
  *   that continuously checks elapsed time. This ensures better timing precision with lower overhead.
- * **Thread synchronization optimization**: `pthread_mutex_trylock()` is used where applicable
- *   to avoid unnecessary blocking.
  *
  **4. Efficient Memory Allocation**
  * **All philosopher structures and mutexes are allocated in a single contiguous block** instead of multiple allocations.
