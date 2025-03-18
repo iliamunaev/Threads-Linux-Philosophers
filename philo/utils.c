@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:46:49 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:25:48 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:14:53 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@
 #include "philo.h"
 
 /**
- * @brief Copies up to `n` characters from the source string to the destination buffer.
+ * @brief Copies up to `n` characters from the source string to the destination
+ * buffer.
  *
  * This function copies at most `n` characters from the source string `src` into
- * the destination buffer `dest`. If `src` is shorter than `n` characters, `dest`
+ * the destination buffer `dest`. If `src` is shorter than `n` characters,
+ * `dest`
  * is null-terminated. Unlike the standard `strncpy`, this function ensures
  * `dest` is always null-terminated.
  *
@@ -70,7 +72,8 @@ size_t	ft_strlen(const char *s)
 /**
  * @brief Determines whether a character is a whitespace character.
  *
- * This function checks if `c` is a whitespace character. Whitespace characters include:
+ * This function checks if `c` is a whitespace character. Whitespace characters
+ * include:
  * - Space (' ')
  * - Newline ('\n')
  * - Form feed ('\f')
@@ -79,7 +82,8 @@ size_t	ft_strlen(const char *s)
  * - Vertical tab ('\v')
  *
  * @param c The character to check.
- * @return int Returns 1 if the character is a whitespace character, otherwise 0.
+ * @return int Returns 1 if the character is a whitespace character,
+ * otherwise 0.
  */
 static int	ft_isspace(char c)
 {
@@ -106,14 +110,17 @@ static int	ft_isdigit(int c)
  * This function:
  * - Skips leading whitespace.
  * - Processes an optional '+' or '-' sign.
- * - Converts numeric characters into an integer until a non-digit character is encountered.
+ * - Converts numeric characters into an integer until a non-digit character
+ * is encountered.
  * - Returns the result as an integer.
  *
  * Thread safety:
- * - This function operates on local variables only and does not modify shared state.
+ * - This function operates on local variables only and does not modify
+ * shared state.
  *
  * @param str The string to convert.
- * @return int The integer representation of the string, or 0 if no valid conversion is possible.
+ * @return int The integer representation of the string, or 0 if no valid
+ * conversion is possible.
  */
 int	ft_atoi(const char *str)
 {

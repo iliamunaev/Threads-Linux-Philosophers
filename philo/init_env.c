@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:07:08 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:07:39 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:25:24 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	fillup_philos(t_env *env)
 		env->philos[i].id = i;
 		env->philos[i].meals = 0;
 		env->philos[i].last_meal = env->start_time;
+		env->philos[i].last_meal = 0;
 		env->philos[i].env = env;
 		env->philos[i].num_philo = env->num_philo;
 		env->philos[i].die_time = env->die_time;

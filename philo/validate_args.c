@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:14:05 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:26:26 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:14:10 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@ static int	ft_isdigit(int c)
  * @brief Validates the command-line arguments for the philosopher simulation.
  *
  * This function ensures:
- * - The correct number of arguments is provided (`./philo num die eat sleep [meals]`).
+ * - The correct number of arguments is provided (`./philo num die eat sleep
+ * [meals]`).
  * - Each argument consists only of numeric digits.
  * - The number of philosophers is at least 1.
  *
  * Thread safety:
- * - This function operates on read-only input (`av[]`) and does not modify shared data.
+ * - This function operates on read-only input (`av[]`) and does not modify
+ * shared data.
  *
  * @param ac The number of command-line arguments.
  * @param av The array of argument strings.

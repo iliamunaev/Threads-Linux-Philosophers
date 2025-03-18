@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:08:59 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:09:03 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:16:01 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
  * (`print_mutex` and `meal_mutex`) to prevent resource leaks.
  *
  * @param env Pointer to the environment structure.
- * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if initialization fails.
+ * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if
+ * initialization fails.
  */
 int	init_start_mutex(t_env *env)
 {
@@ -50,7 +51,8 @@ int	init_start_mutex(t_env *env)
  * to clean up allocated resources.
  *
  * @param env Pointer to the environment structure.
- * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if initialization fails.
+ * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if
+ * initialization fails.
  */
 int	init_end_mutex(t_env *env)
 {
@@ -72,7 +74,8 @@ int	init_end_mutex(t_env *env)
  * fails, it destroys previously initialized mutexes to clean up.
  *
  * @param env Pointer to the environment structure.
- * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if initialization fails.
+ * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if
+ * initialization fails.
  */
 
 int	init_log_buffer_mutex(t_env *env)

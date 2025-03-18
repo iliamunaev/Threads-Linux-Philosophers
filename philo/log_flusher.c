@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 15:40:04 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:13:23 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:13:21 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	buffered_print(t_log_buffer *buf,
 /**
  * @brief Logs the current status of a philosopher.
  *
- * This function records the philosopher's state (e.g., eating, thinking, sleeping)
+ * This function records the philosopher's state (e.g., eating, thinking,
+ * sleeping)
  * by capturing the event timestamp relative to the simulation start time and
  * storing it in the log buffer.
  *

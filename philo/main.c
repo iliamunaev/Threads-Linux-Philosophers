@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:47:57 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:01:13 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:15:17 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@
  * validates arguments, starts necessary threads, and manages cleanup.
  */
 
- #include "philo.h"
+#include "philo.h"
 
- /**
-  * @brief Main function to initialize and start the philosopher simulation.
-  *
-  * - Validates command-line arguments.
-  * - Initializes the simulation environment.
-  * - Starts philosopher, monitor, and logger threads.
-  * - Waits for threads to finish and cleans up resources.
-  *
-  * @param ac Argument count.
-  * @param av Argument vector.
-  * @return int Returns EXIT_SUCCESS on successful execution, or EXIT_FAILURE
-  * if initialization or thread creation fails.
-  */
+/**
+ * @brief Main function to initialize and start the philosopher simulation.
+ *
+ * - Validates command-line arguments.
+ * - Initializes the simulation environment.
+ * - Starts philosopher, monitor, and logger threads.
+ * - Waits for threads to finish and cleans up resources.
+ *
+ * @param ac Argument count.
+ * @param av Argument vector.
+ * @return int Returns EXIT_SUCCESS on successful execution, or EXIT_FAILURE
+ * if initialization or thread creation fails.
+ */
 int	main(int ac, char **av)
 {
 	t_env		*env;

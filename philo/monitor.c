@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:31:00 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:14:51 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:15:39 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
  * @brief Monitoring functions for the philosopher simulation.
  *
  * This file contains functions responsible for monitoring philosopher status,
- * including detecting deaths and checking if all philosophers have finished eating.
+ * including detecting deaths and checking if all philosophers have finished
+ * eating.
  * The monitor thread ensures that the simulation ends when necessary.
  */
 
@@ -24,7 +25,8 @@
 /**
  * @brief Checks if a philosopher has died.
  *
- * This function calculates the time since a philosopher's last meal and compares
+ * This function calculates the time since a philosopher's last meal and
+ * compares
  * it with the allowed die time. If the philosopher has exceeded the time limit,
  * the function marks the simulation as ended and prints a death message.
  *
@@ -61,7 +63,8 @@ static int	check_death(t_env *env, int i)
 /**
  * @brief Checks if all philosophers have eaten enough meals.
  *
- * This function verifies if every philosopher has reached the required meal limit.
+ * This function verifies if every philosopher has reached the required meal
+ * limit.
  * If all philosophers have consumed the required number of meals, it marks the
  * simulation as ended.
  *
@@ -137,6 +140,7 @@ void	*monitor(void *arg)
 	env = (t_env *)arg;
 	while (1)
 	{
+		usleep(5000);
 		if (should_terminate(env))
 			break ;
 		i = 0;
@@ -152,7 +156,6 @@ void	*monitor(void *arg)
 			env->ended = 1;
 			pthread_mutex_unlock(&env->end_mutex);
 		}
-		usleep(5000);
 	}
 	return (NULL);
 }

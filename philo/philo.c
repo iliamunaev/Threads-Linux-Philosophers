@@ -6,23 +6,26 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:22:11 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:17:50 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file philo.c
- * @brief Philosopher routine implementation for the dining philosophers simulation.
+ * @brief Philosopher routine implementation for the dining philosophers
+ * simulation.
  *
  * This file contains the core logic executed by each philosopher thread,
  * including actions such as thinking, eating, sleeping, and handling forks.
- * It also manages synchronization mechanisms to avoid race conditions and deadlocks.
+ * It also manages synchronization mechanisms to avoid race conditions and
+ * deadlocks.
  */
 
 #include "philo.h"
 
 /**
- * @brief Arranges philosophers for initial thinking before starting their routine.
+ * @brief Arranges philosophers for initial thinking before starting their
+ * routine.
  *
  * This function staggers philosopher actions to reduce contention when
  * acquiring forks, improving simulation efficiency.
@@ -68,7 +71,8 @@ static void	self_arrange(t_philo *p)
  *
  * Thread safety:
  * - Uses `meal_mutex` to safely update the last meal time and meal count.
- * - Uses mutex locks when taking and releasing forks to prevent race conditions.
+ * - Uses mutex locks when taking and releasing forks to prevent race
+ * conditions.
  *
  * @param p Pointer to the philosopher structure.
  */
@@ -87,13 +91,19 @@ static void	repeat_routine(t_philo *p)
 	print_status(p, "is sleeping");
 	precise_sleep(p->sleep_time);
 	print_status(p, "is thinking");
+	if (p->num_philo & 1)
+		precise_sleep(p->sleep_time);
+	else
+		precise_sleep(1);
 }
 
 /**
  * @brief Handles the special case where only one philosopher exists.
  *
- * A single philosopher picks up a fork and is unable to eat, leading to starvation.
- * This function ensures that the philosopher "dies" after the defined `die_time`.
+ * A single philosopher picks up a fork and is unable to eat, leading to
+ *  starvation.
+ * This function ensures that the philosopher "dies" after the defined
+ * `die_time`.
  *
  * @param p Pointer to the philosopher structure.
  */
@@ -101,7 +111,10 @@ static void	repeat_routine(t_philo *p)
 static void	process_single_philo(t_philo *p)
 {
 	print_status(p, "has taken a fork");
-	usleep(p->die_time);
+	precise_sleep(p->die_time + 5);
+	pthread_mutex_lock(&p->env->end_mutex);
+	p->env->ended = 1;
+	pthread_mutex_unlock(&p->env->end_mutex);
 }
 
 /**
@@ -122,6 +135,9 @@ static void	wait_all_threads(t_philo *p)
 	while (get_time() < p->env->start_time)
 		usleep(50);
 	pthread_mutex_unlock(&p->env->start_mutex);
+	pthread_mutex_lock(&p->env->meal_mutex);
+	p->last_meal = get_time();
+	pthread_mutex_unlock(&p->env->meal_mutex);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:46:19 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 17:23:54 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 21:16:41 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@
  * - No shared data is modified, so no mutex is required.
  *
  * @param env Pointer to the environment structure.
- * @param logger_thread Pointer to the `pthread_t` variable for the logger thread.
+ * @param logger_thread Pointer to the `pthread_t` variable for the logger
+ * thread.
  * @return int Returns EXIT_SUCCESS if the thread is created successfully,
  * otherwise EXIT_FAILURE.
  */
@@ -134,7 +135,8 @@ static int	create_philosopher_threads(t_env *env)
  *
  * @param env Pointer to the environment structure.
  * @param mon Pointer to the `pthread_t` variable for the monitor thread.
- * @param logger_thread Pointer to the `pthread_t` variable for the logger thread.
+ * @param logger_thread Pointer to the `pthread_t` variable for the logger
+ * thread.
  * @return int Returns EXIT_SUCCESS if all threads start successfully,
  * otherwise EXIT_FAILURE.
  */
@@ -156,7 +158,6 @@ int	start_threads(t_env *env, pthread_t *mon, pthread_t *logger_thread)
 		pthread_mutex_unlock(&env->start_mutex);
 		return (EXIT_FAILURE);
 	}
-	env->start_time = get_time();
 	pthread_mutex_unlock(&env->start_mutex);
 	return (EXIT_SUCCESS);
 }
