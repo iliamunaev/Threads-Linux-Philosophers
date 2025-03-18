@@ -5,6 +5,10 @@
 ## Introduction
 This project is a multi-threaded simulation of the classic **Dining Philosophers Problem**. The goal is to prevent **deadlocks** and **starvation** while ensuring philosophers can **eat, think, and sleep** concurrently in a well-coordinated manner.
 
+## Full Documentation
+
+Visit site: **[Threads-Linux-Philosophers](https://iliamunaev.github.io/Threads-Linux-Philosophers/)**
+
 ## The Problem
 The **Dining Philosophers Problem** consists of `N` philosophers sitting at a circular table, each requiring **two forks** (shared with neighbors) to eat. The main challenges include:
 
