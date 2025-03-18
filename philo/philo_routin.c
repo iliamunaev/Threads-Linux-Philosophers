@@ -1,19 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   philo_routin.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 14:10:41 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 10:20:18 by imunaev-         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-/**
- * @file philo_routine.c
- * @brief Implements philosopher actions and timing functions.
- */
 #include "philo.h"
 
 /**
@@ -28,7 +13,11 @@ long	get_time(void)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);
+	if (gettimeofday(&tv, NULL) != 0)
+	{
+		print_error("Error: get_time: gettimeofday failed.\n");
+		return (-1);
+	}
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 
 }

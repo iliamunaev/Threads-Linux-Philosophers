@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 22:15:12 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:20:00 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ static void	self_arrange(t_philo *p)
 	if (is_odd_philo && p->id == 0)
 	{
 		print_status(p, "is thinking");
-		// precise_sleep(2 * p->env->eat_time);
 		precise_sleep(p->env->eat_time << 1);
 	}
-	// if (p->env->num_philo % 2 && p->id % 2)
 	if (is_odd_philo&& (p->id & 1))
 	{
 		print_status(p, "is thinking");
@@ -61,10 +59,12 @@ static void	repeat_routine(t_philo *p)
 	take_forks(p);
 	pthread_mutex_lock(&p->env->meal_mutex);
 	p->last_meal = get_time();
-	p->meals++;
 	pthread_mutex_unlock(&p->env->meal_mutex);
 	print_status(p, "is eating");
 	precise_sleep(p->env->eat_time);
+	pthread_mutex_lock(&p->env->meal_mutex);
+	p->meals++;
+	pthread_mutex_unlock(&p->env->meal_mutex);
 	put_forks(p);
 	print_status(p, "is sleeping");
 	precise_sleep(p->env->sleep_time);
@@ -85,32 +85,28 @@ static void	process_single_philo(t_philo *p)
 	usleep(p->env->die_time + 5);
 }
 
-/**
- * @brief Philosopher thread routine.
- *
- * This function defines the philosopher's behavior in a separate thread.
- * If there is only one philosopher, a special handling function is called.
- * Otherwise, they follow a normal routine of eating, sleeping, and thinking.
- *
- * @param arg Pointer to the philosopher structure.
- * @return NULL when the philosopher stops execution.
- */
+static void wait_all_threads(t_philo *p)
+{
+	pthread_mutex_lock(&p->env->start_mutex);
+	while (get_time() < p->env->start_time)
+		usleep(50);
+	pthread_mutex_unlock(&p->env->start_mutex);
+	pthread_mutex_lock(&p->env->end_mutex);
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-
+	wait_all_threads(p);
 	if (p->env->num_philo == 1)
 	{
 		process_single_philo(p);
+		pthread_mutex_unlock(&p->env->end_mutex);
 		return (NULL);
 	}
-	pthread_mutex_lock(&p->env->start_mutex);
-	while (get_time() < p->env->start_time)
-		usleep(50);
-	pthread_mutex_unlock(&p->env->start_mutex);
-
+	pthread_mutex_unlock(&p->env->end_mutex);
 	self_arrange(p);
 	while (1)
 	{

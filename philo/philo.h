@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 21:36:13 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:58:54 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,38 +75,49 @@ typedef struct s_env
 	long			start_time;
 	pthread_mutex_t	*forks;
 	t_philo			*philos;
-	int				*ticket_nums;
-	int				ticket_counter;
-	pthread_mutex_t	end_mutex;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	start_mutex;
+	pthread_mutex_t	end_mutex;
 	t_log_buffer	log_buffer;
 }	t_env;
 
 // init
+bool	validate_args(int ac, char **av);
+void	init_program(t_env **env, int ac, char **av);
 int		init_env(t_env *env, int ac, char **av);
-void	setup_philos(t_env *env);
-int		start_threads(t_env *env, pthread_t *mon, pthread_t *logger_thread);
 void	join_threads(t_env *env, pthread_t mon, pthread_t logger_thread);
 
-long	get_time(void);
-void	precise_sleep(long ms);
-void	print_status(t_philo *p, const char *status);
-void	take_forks(t_philo *p);
-void	put_forks(t_philo *p);
+// mutexes
+int		init_print_mutex(t_env *env);
+int		init_meal_mutex(t_env *env);
+int		init_start_mutex(t_env *env);
+int		init_end_mutex(t_env *env);
+int		init_log_buffer_mutex(t_env *env);
+int		init_forks_mutex(t_env *env);
+
+// treads
 void	*log_flusher(void *arg);
-
-void	done_eating(t_philo *p);
-
-void	*routine(void *arg);
 void	*monitor(void *arg);
+void	*routine(void *arg);
+int		start_threads(t_env *env, pthread_t *mon, pthread_t *logger_thread);
 
-// utils
-int		ft_atoi(const char *str);
-void	print_error(char *msg);
-void	clean_up(t_env *env);
-void	clean_env(t_env *env);
+// philo routin
+void	put_forks(t_philo *p);
+void	take_forks(t_philo *p);
+void	precise_sleep(long ms);
+long	get_time(void);
+
+// free memory utils
+void	free_env(t_env *env);
+void	destroy_mutexes(t_env *env);
+void	free_all(t_env *env);
+
+// other utils
 void	ft_strncpy(char *dest, const char *src, size_t n);
 size_t	ft_strlen(const char *s);
+int		ft_atoi(const char *str);
+void	print_error(char *msg);
+void	print_status(t_philo *p, const char *status);
+
 #endif
