@@ -6,20 +6,27 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:14:05 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 16:14:06 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:26:26 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @file validate_args.c
+ * @brief Command-line argument validation for the philosopher simulation.
+ *
+ * This file contains functions to verify that user-provided arguments
+ * are correctly formatted and within valid constraints.
+ */
 
 #include "philo.h"
 
 /**
- * @brief Checks if a character is a numeric digit.
+ * @brief Determines whether a character is a numeric digit.
  *
- * This function tests whether the given character `c` is a numeric
- * digit (characters '0' through '9').
+ * This function checks if the character `c` is a digit ('0' through '9').
  *
  * @param c The character to check.
- * @return int Nonzero if the character is a numeric digit, 0 otherwise.
+ * @return int Returns nonzero if `c` is a numeric digit, otherwise 0.
  */
 static int	ft_isdigit(int c)
 {
@@ -27,14 +34,19 @@ static int	ft_isdigit(int c)
 }
 
 /**
- * @brief Validates the command-line arguments.
+ * @brief Validates the command-line arguments for the philosopher simulation.
  *
- * Ensures the correct number of arguments is provided and that each argument
- * consists only of numeric digits.
+ * This function ensures:
+ * - The correct number of arguments is provided (`./philo num die eat sleep [meals]`).
+ * - Each argument consists only of numeric digits.
+ * - The number of philosophers is at least 1.
  *
- * @param ac Argument count.
- * @param av Argument vector.
- * @return true if valid, false otherwise.
+ * Thread safety:
+ * - This function operates on read-only input (`av[]`) and does not modify shared data.
+ *
+ * @param ac The number of command-line arguments.
+ * @param av The array of argument strings.
+ * @return bool Returns `true` if all arguments are valid, otherwise `false`.
  */
 bool	validate_args(int ac, char **av)
 {

@@ -6,19 +6,30 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:12:22 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 16:12:24 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:19:09 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @file philo_routin.c
+ * @brief Philosopher routine functions for the dining philosophers simulation.
+ *
+ * This file contains utility functions that handle time management,
+ * precise sleeping, and philosopher actions such as taking and releasing forks.
+ */
 
 #include "philo.h"
 
 /**
- * @brief Gets the current timestamp in milliseconds.
+ * @brief Retrieves the current timestamp in milliseconds.
  *
- * Uses gettimeofday() to retrieve the current time and convert it into
- * milliseconds.
+ * Uses `gettimeofday()` to fetch the current system time and converts
+ * it into milliseconds for accurate time tracking in the simulation.
  *
- * @return Current time in milliseconds.
+ * Thread safety:
+ * - This function does not use shared data, so no mutex is required.
+ *
+ * @return The current time in milliseconds, or -1 if `gettimeofday()` fails.
  */
 long	get_time(void)
 {
@@ -33,10 +44,14 @@ long	get_time(void)
 }
 
 /**
- * @brief Sleeps for a precise amount of milliseconds.
+ * @brief Sleeps for a precise duration in milliseconds.
  *
- * Uses a loop to continuously check elapsed time and sleep in short
- * intervals to maintain precision.
+ * Uses a loop to repeatedly check the elapsed time while calling `usleep(500)`.
+ * This ensures better precision compared to `usleep(ms * 1000)`, which may be
+ * affected by system scheduling delays.
+ *
+ * Thread safety:
+ * - This function does not modify shared data and does not require a mutex.
  *
  * @param ms The duration to sleep in milliseconds.
  */
@@ -50,12 +65,14 @@ void	precise_sleep(long ms)
 }
 
 /**
- * @brief Philosopher takes both forks before eating.
+ * @brief Handles the action of a philosopher taking both forks before eating.
  *
- * Implements a strategy where even-indexed philosophers pick up
- * the left fork first,
- * while odd-indexed philosophers pick up the right fork first to
- * reduce deadlock risk.
+ * Implements a strategy to reduce deadlocks:
+ * - Even-indexed philosophers pick up their left fork first.
+ * - Odd-indexed philosophers pick up their right fork first.
+ *
+ * Thread safety:
+ * - Uses `pthread_mutex_lock()` to prevent race conditions when accessing forks.
  *
  * @param p Pointer to the philosopher structure.
  */
@@ -66,7 +83,7 @@ void	take_forks(t_philo *p)
 
 	left = p->id;
 	right = (p->id + 1) % p->num_philo;
-	if (p->id % 2 == 0)
+	if (!(p->id & 1))
 	{
 		pthread_mutex_lock(&p->env->forks[left]);
 		print_status(p, "has taken a fork");
@@ -83,9 +100,12 @@ void	take_forks(t_philo *p)
 }
 
 /**
- * @brief Philosopher releases both forks after eating.
+ * @brief Handles the action of a philosopher releasing both forks after eating.
  *
  * Unlocks the mutexes associated with the philosopher's left and right forks.
+ *
+ * Thread safety:
+ * - Uses `pthread_mutex_unlock()` to safely release fork resources.
  *
  * @param p Pointer to the philosopher structure.
  */

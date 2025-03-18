@@ -6,7 +6,7 @@
 #    By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/17 09:44:25 by imunaev-          #+#    #+#              #
-#    Updated: 2025/03/18 16:10:18 by imunaev-         ###   ########.fr        #
+#    Updated: 2025/03/18 17:29:01 by imunaev-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 SRCS =	main.c \
 		error_utils.c \
-		free_memory_utils.c \
+		memory_managment.c \
 		init_env.c \
 		init_mutexes_1.c \
 		init_mutexes_2.c \

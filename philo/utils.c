@@ -6,20 +6,30 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 09:46:49 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/17 17:57:04 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:25:48 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @file utils.c
+ * @brief Utility functions for string manipulation and numerical conversion.
+ *
+ * This file contains commonly used helper functions, including:
+ * - String copying (`ft_strncpy`)
+ * - String length calculation (`ft_strlen`)
+ * - Character classification (`ft_isspace`, `ft_isdigit`)
+ * - String-to-integer conversion (`ft_atoi`)
+ */
 
 #include "philo.h"
 
 /**
- * @brief Copies up to `n` characters from the source string
- * to the destination string.
+ * @brief Copies up to `n` characters from the source string to the destination buffer.
  *
- * This function copies at most `n` characters from the source string `src` to
- * the destination buffer `dest`. If `src` is shorter than `n` characters,
- * `dest` is null-terminated. Unlike the standard `strncpy`, this implementation
- * explicitly null-terminates the destination string.
+ * This function copies at most `n` characters from the source string `src` into
+ * the destination buffer `dest`. If `src` is shorter than `n` characters, `dest`
+ * is null-terminated. Unlike the standard `strncpy`, this function ensures
+ * `dest` is always null-terminated.
  *
  * @param dest The destination buffer where the string is copied.
  * @param src The source string to copy from.
@@ -39,12 +49,12 @@ void	ft_strncpy(char *dest, const char *src, size_t n)
 }
 
 /**
- * @brief Calculates the length of a string.
+ * @brief Computes the length of a string.
  *
- * This function determines the number of characters in the null-terminated
- * string `s`, excluding the terminating null byte (`\0`).
+ * This function returns the number of characters in the null-terminated
+ * string `s`, excluding the null terminator.
  *
- * @param s The string whose length is to be calculated.
+ * @param s The input string.
  * @return size_t The length of the string, excluding the null terminator.
  */
 size_t	ft_strlen(const char *s)
@@ -58,10 +68,9 @@ size_t	ft_strlen(const char *s)
 }
 
 /**
- * @brief Checks if a character is a whitespace character.
+ * @brief Determines whether a character is a whitespace character.
  *
- * This function determines whether the given character is a
- * whitespace character, which includes:
+ * This function checks if `c` is a whitespace character. Whitespace characters include:
  * - Space (' ')
  * - Newline ('\n')
  * - Form feed ('\f')
@@ -70,9 +79,8 @@ size_t	ft_strlen(const char *s)
  * - Vertical tab ('\v')
  *
  * @param c The character to check.
- * @return int 1 if the character is a whitespace character, 0 otherwise.
+ * @return int Returns 1 if the character is a whitespace character, otherwise 0.
  */
-
 static int	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\n' || c == '\f' || c == '\r'
@@ -80,13 +88,12 @@ static int	ft_isspace(char c)
 }
 
 /**
- * @brief Checks if a character is a numeric digit.
+ * @brief Determines whether a character is a numeric digit.
  *
- * This function tests whether the given character `c` is a numeric
- * digit (characters '0' through '9').
+ * This function checks if `c` is a digit (characters '0' through '9').
  *
  * @param c The character to check.
- * @return int Nonzero if the character is a numeric digit, 0 otherwise.
+ * @return int Returns nonzero if `c` is a numeric digit, otherwise 0.
  */
 static int	ft_isdigit(int c)
 {
@@ -94,15 +101,19 @@ static int	ft_isdigit(int c)
 }
 
 /**
- * @brief Converts the initial portion of a string to an integer.
+ * @brief Converts a string to an integer (`atoi` implementation).
  *
- * This function skips leading whitespace, handles an optional '+' or '-' sign,
- * and accumulates numeric characters until encountering a non-digit or the end
- * of the string. The result is returned as an integer value.
+ * This function:
+ * - Skips leading whitespace.
+ * - Processes an optional '+' or '-' sign.
+ * - Converts numeric characters into an integer until a non-digit character is encountered.
+ * - Returns the result as an integer.
  *
- * @param str The string to be converted.
- * @return int The converted integer, or 0 if no valid conversion could be
- * performed.
+ * Thread safety:
+ * - This function operates on local variables only and does not modify shared state.
+ *
+ * @param str The string to convert.
+ * @return int The integer representation of the string, or 0 if no valid conversion is possible.
  */
 int	ft_atoi(const char *str)
 {

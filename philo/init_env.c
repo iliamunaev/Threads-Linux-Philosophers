@@ -6,16 +6,31 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 16:07:08 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 16:07:10 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:07:39 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * @file init_env.c
- * @brief Environment initialization functions for philosopher simulation.
+ * @brief Environment initialization functions for the philosopher simulation.
+ *
+ * This file contains functions responsible for setting up the simulation
+ * environment, including memory allocation, mutex initialization, and
+ * philosopher struct configuration.
  */
+
 #include "philo.h"
 
+/**
+ * @brief Initializes the philosopher structures.
+ *
+ * This function assigns initial values to each philosopher, including
+ * ID, meal count, last meal time, and environmental settings.
+ *
+ * @param env Pointer to the environment structure.
+ * @return int Returns EXIT_SUCCESS on success, or EXIT_FAILURE if the
+ * start time retrieval fails.
+ */
 static int	fillup_philos(t_env *env)
 {
 	int	i;
@@ -43,6 +58,16 @@ static int	fillup_philos(t_env *env)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief Initializes all required mutexes for thread synchronization.
+ *
+ * This function initializes mutexes used for printing, meal tracking,
+ * thread synchronization, and philosopher fork control.
+ *
+ * @param env Pointer to the environment structure.
+ * @return int Returns EXIT_SUCCESS if all mutexes are initialized successfully,
+ * otherwise returns EXIT_FAILURE.
+ */
 static int	init_mutexes(t_env *env)
 {
 	if (init_print_mutex(env) == EXIT_FAILURE)
@@ -60,6 +85,17 @@ static int	init_mutexes(t_env *env)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief Allocates memory for philosopher and fork structures.
+ *
+ * This function dynamically allocates memory for the philosopher
+ * array (`env->philos`) and the fork mutex array (`env->forks`). If
+ * allocation fails, it prints an error message and ensures proper cleanup.
+ *
+ * @param env Pointer to the environment structure.
+ * @return int Returns EXIT_SUCCESS if memory allocation is successful,
+ * otherwise returns EXIT_FAILURE.
+ */
 static int	init_forks_philos(t_env *env)
 {
 	env->forks = malloc(env->num_philo * sizeof(pthread_mutex_t));
@@ -79,6 +115,21 @@ static int	init_forks_philos(t_env *env)
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * @brief Initializes the simulation environment.
+ *
+ * This function parses input arguments, sets up philosopher count,
+ * timing values, and meal limits. It then allocates necessary
+ * resources, initializes mutexes, and configures philosophers.
+ *
+ * If any step fails, it ensures proper cleanup and returns an error.
+ *
+ * @param env Pointer to the environment structure.
+ * @param ac Argument count.
+ * @param av Argument vector.
+ * @return int Returns EXIT_SUCCESS if the environment is successfully
+ *         initialized, otherwise returns EXIT_FAILURE.
+ */
 int	init_env(t_env *env, int ac, char **av)
 {
 	env->num_philo = ft_atoi(av[1]);
