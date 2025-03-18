@@ -22,6 +22,11 @@ static int	fillup_philos(t_env *env)
 		env->philos[i].meals = 0;
 		env->philos[i].last_meal = env->start_time;
 		env->philos[i].env = env;
+		env->philos[i].num_philo = env->num_philo;
+		env->philos[i].die_time = env->die_time;
+		env->philos[i].eat_time = env->eat_time;
+		env->philos[i].sleep_time = env->sleep_time;
+		env->philos[i].meals_limit = env->meals_limit;
 		i++;
 	}
 	return (EXIT_SUCCESS);

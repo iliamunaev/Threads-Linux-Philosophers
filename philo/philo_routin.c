@@ -55,7 +55,7 @@ void	take_forks(t_philo *p)
 	int	right;
 
 	left = p->id;
-	right = (p->id + 1) % p->env->num_philo;
+	right = (p->id + 1) % p->num_philo;
 	if (p->id % 2 == 0)
 	{
 		pthread_mutex_lock(&p->env->forks[left]);
@@ -82,5 +82,5 @@ void	take_forks(t_philo *p)
 void	put_forks(t_philo *p)
 {
 	pthread_mutex_unlock(&p->env->forks[p->id]);
-	pthread_mutex_unlock(&p->env->forks[(p->id + 1) % p->env->num_philo]);
+	pthread_mutex_unlock(&p->env->forks[(p->id + 1) % p->num_philo]);
 }

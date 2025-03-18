@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 12:58:54 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:39:14 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ typedef struct s_philo
 	long		last_meal;
 	pthread_t	thread;
 	t_env		*env;
+	int			num_philo;
+	long		die_time;
+	long		eat_time;
+	long		sleep_time;
+	int			meals_limit;
 }	t_philo;
 
 /**
