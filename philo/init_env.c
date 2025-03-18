@@ -63,6 +63,7 @@ static int	init_forks_philos(t_env *env)
 	{
 		print_error ("Error: init_forks_philos: philos mem alloc failed.\n");
 		free(env->forks);
+		env->forks = NULL;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -81,6 +82,11 @@ int	init_env(t_env *env, int ac, char **av)
 	env->ended = 0;
 	env->start_time = 0;
 	env->log_buffer.count = 0;
+	env->t_philos_created = false;
+	env->t_logger_created = false;
+	env->t_mon_created = false;
+	env->philos = NULL;
+	env->forks = NULL;
 	if (init_forks_philos(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_mutexes(env) == EXIT_FAILURE)

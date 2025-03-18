@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:13:14 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:39:14 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:58:26 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ typedef struct s_env
 	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	end_mutex;
 	t_log_buffer	log_buffer;
+	bool			t_philos_created;
+	bool			t_logger_created;
+	bool			t_mon_created;
 }	t_env;
 
 // init

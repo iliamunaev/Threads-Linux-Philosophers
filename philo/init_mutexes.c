@@ -2,6 +2,7 @@
 
 int	init_print_mutex(t_env *env)
 {
+
 	if (pthread_mutex_init(&env->print_mutex, NULL) != 0)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
