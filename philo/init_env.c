@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 16:07:08 by imunaev-          #+#    #+#             */
+/*   Updated: 2025/03/18 16:07:10 by imunaev-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 /**
  * @file init_env.c
@@ -34,7 +45,6 @@ static int	fillup_philos(t_env *env)
 
 static int	init_mutexes(t_env *env)
 {
-
 	if (init_print_mutex(env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (init_meal_mutex(env) == EXIT_FAILURE)
@@ -75,10 +85,9 @@ int	init_env(t_env *env, int ac, char **av)
 	env->die_time = ft_atoi(av[2]);
 	env->eat_time = ft_atoi(av[3]);
 	env->sleep_time = ft_atoi(av[4]);
+	env->meals_limit = -1;
 	if (ac == 6)
 		env->meals_limit = ft_atoi(av[5]);
-	else
-		env->meals_limit = -1;
 	env->ended = 0;
 	env->start_time = 0;
 	env->log_buffer.count = 0;

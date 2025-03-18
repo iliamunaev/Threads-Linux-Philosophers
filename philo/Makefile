@@ -6,7 +6,7 @@
 #    By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/17 09:44:25 by imunaev-          #+#    #+#              #
-#    Updated: 2025/03/18 13:50:14 by imunaev-         ###   ########.fr        #
+#    Updated: 2025/03/18 16:10:18 by imunaev-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS =	main.c \
 		error_utils.c \
 		free_memory_utils.c \
 		init_env.c \
-		init_mutexes.c \
+		init_mutexes_1.c \
+		init_mutexes_2.c \
 		init_program.c \
 		join_threads.c \
 		log_flusher.c \

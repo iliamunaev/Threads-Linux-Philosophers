@@ -6,12 +6,11 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:46:19 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 16:00:49 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:13:34 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 static int	create_logger_thread(t_env *env, pthread_t *logger_thread)
 {
@@ -46,7 +45,7 @@ static int	create_philosopher_threads(t_env *env)
 	while (i < env->num_philo)
 	{
 		if (pthread_create(&env->philos[i].thread, NULL,
-							routine, &env->philos[i]) != 0)
+				routine, &env->philos[i]) != 0)
 		{
 			print_error("Error: Failed to create philosopher thread\n");
 			pthread_mutex_lock(&env->end_mutex);

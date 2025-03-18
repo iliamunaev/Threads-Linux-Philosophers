@@ -1,22 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_mutexes_1.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 16:08:59 by imunaev-          #+#    #+#             */
+/*   Updated: 2025/03/18 16:09:59 by imunaev-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
-
-int	init_print_mutex(t_env *env)
-{
-
-	if (pthread_mutex_init(&env->print_mutex, NULL) != 0)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
-int	init_meal_mutex(t_env *env)
-{
-	if (pthread_mutex_init(&env->meal_mutex, NULL) != 0)
-	{
-		(void)pthread_mutex_destroy(&env->print_mutex);
-		return (EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
-}
 
 int	init_start_mutex(t_env *env)
 {
@@ -28,9 +22,9 @@ int	init_start_mutex(t_env *env)
 	}
 	return (EXIT_SUCCESS);
 }
+
 int	init_end_mutex(t_env *env)
 {
-
 	if (pthread_mutex_init(&env->end_mutex, NULL) != 0)
 	{
 		(void)pthread_mutex_destroy(&env->print_mutex);
@@ -53,9 +47,10 @@ int	init_log_buffer_mutex(t_env *env)
 	}
 	return (EXIT_SUCCESS);
 }
+
 int	init_forks_mutex(t_env *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < env->num_philo)

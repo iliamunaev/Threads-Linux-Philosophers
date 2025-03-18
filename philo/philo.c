@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:10:43 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:55:33 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:14:33 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 static void	self_arrange(t_philo *p)
 {
-	bool is_odd_philo;
-	bool is_even_philo;
+	bool	is_odd_philo;
+	bool	is_even_philo;
 
 	is_odd_philo = (p->num_philo & 1);
 	is_even_philo = !(p->num_philo & 1);
@@ -28,7 +28,7 @@ static void	self_arrange(t_philo *p)
 		print_status(p, "is thinking");
 		precise_sleep(p->eat_time << 1);
 	}
-	if (is_odd_philo&& (p->id & 1))
+	if (is_odd_philo && (p->id & 1))
 	{
 		print_status(p, "is thinking");
 		precise_sleep(p->eat_time);
@@ -63,7 +63,7 @@ static void	process_single_philo(t_philo *p)
 	usleep(p->die_time);
 }
 
-static void wait_all_threads(t_philo *p)
+static void	wait_all_threads(t_philo *p)
 {
 	pthread_mutex_lock(&p->env->start_mutex);
 	while (get_time() < p->env->start_time)

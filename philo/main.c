@@ -6,7 +6,7 @@
 /*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 16:47:57 by imunaev-          #+#    #+#             */
-/*   Updated: 2025/03/18 15:36:38 by imunaev-         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:04:47 by imunaev-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,6 @@
  */
 #include "philo.h"
 
-/**
- * @brief Main function to run the philosopher dining problem simulation.
- *
- * @param ac Argument count.
- * @param av Argument values.
- * @return EXIT_SUCCESS on success, otherwise EXIT_FAILURE.
- */
 int	main(int ac, char **av)
 {
 	t_env		*env;

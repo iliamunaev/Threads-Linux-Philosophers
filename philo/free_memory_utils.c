@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_memory_utils.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: imunaev- <imunaev-@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 16:05:25 by imunaev-          #+#    #+#             */
+/*   Updated: 2025/03/18 16:05:44 by imunaev-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philo.h"
 
@@ -15,7 +26,6 @@ void	destroy_mutexes(t_env *env)
 	i = 0;
 	while (i < env->num_philo)
 	{
-
 		(void)pthread_mutex_destroy(&env->forks[i]);
 		i++;
 	}
@@ -39,7 +49,7 @@ void	free_env(t_env *env)
 	env = NULL;
 }
 
-void free_all(t_env *env)
+void	free_all(t_env *env)
 {
 	if (!env)
 		return ;
