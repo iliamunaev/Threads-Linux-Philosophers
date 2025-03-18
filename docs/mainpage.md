@@ -1,4 +1,6 @@
- @section Repo
+@mainpage Philosopher Dining Problem Solution
+
+@section Repo
 
 [**GitHub: Threads-Linux-Philosophers**](https://iliamunaev.github.io/Threads-Linux-Philosophers/)
 
