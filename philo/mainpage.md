@@ -2,7 +2,7 @@
 
 @section Repo
 
-[**GitHub: Threads-Linux-Philosophers**](https://iliamunaev.github.io/Threads-Linux-Philosophers/)
+[**GitHub: Threads-Linux-Philosophers**](https://github.com/iliamunaev/Threads-Linux-Philosophers)
 
  @section intro_sec Introduction
 
